@@ -15,7 +15,7 @@ li a {
   padding: 8px 16px;
   text-decoration: none;
 }
-li a:active {
+li a active {
   background-color: #279;
   color: white
 }
