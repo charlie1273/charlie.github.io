@@ -27,3 +27,9 @@ li a:hover {
   background-color: #555;
   color: white;
 }
+dt {
+  size: 30;
+}
+dd {
+  size: 15;
+}
