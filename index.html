@@ -3,6 +3,12 @@
   <head>
     <link rel="stylesheet" href="style.css">
     <title>Charlies Website</title>
+    <script>
+    function displayText() {
+      var text = document.getElementById("textField");
+      text.style.display = "block";
+    }
+    </script>
   </head>
   <body>
     <ul>
@@ -11,5 +17,10 @@
     <li><a href="about.html">About</a></li>
     </ul>
     <p>This test is to make sure the website works.</p>
+    <button onclick="displayText()">Click Me!</button>
+
+<div id="textField" style="display: none;">
+  This is the text that appears when you click the button.
+</div>
   </body>
 </html>
