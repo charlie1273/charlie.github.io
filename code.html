@@ -1,0 +1,329 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <title>Charlies Website</title>
+    
+  </head>
+  <body>
+    #include "Baritone.h"
+
+Baritone::Baritone() : IModule(0, Category::WORLD, "Baritone (kinda) Made by Charlie272") {
+}
+
+Baritone::~Baritone() {
+}
+
+const char* Baritone::getModuleName() {
+	return ("Baritone");
+}
+bool hasStarted;
+int tickCounter = 0;
+bool poggers;
+bool hitSmth;
+bool gotDiamonds = true;
+bool doneDown;
+bool doneUp;
+bool fortnite = false;
+vec3_t target;
+
+void Baritone::onEnable() {
+	clientMessageF("Enabled");
+	/// <summary>
+	/// This section is where the first angle to look straight down is made.
+	/// </summary>
+	C_LocalPlayer* localPlayer = g_Data.getLocalPlayer();
+	vec2_t appl;
+	vec2_t angles = localPlayer->viewAngles;
+	if (angles.x < -180) {
+		appl.x = appl.x - 360;
+	}
+	if (angles.x < 0) {
+		appl.x = appl.x - 180;
+	} 
+	else {
+		appl.x = appl.x - 90;
+	}
+	appl.y = appl.y - angles.y;
+	appl.x = appl.x - angles.x;
+	//appl.y = appl.y + 90;
+	localPlayer->applyTurnDelta(&appl);
+	
+	PointingStruct* blockLooking = g_Data.getClientInstance()->getPointerStruct();
+	vec3_t blockLok;
+	vec3_ti b = blockLooking->block;
+	vec3_t joeMama;
+	blockLok.x = b.x;
+	blockLok.y = b.y;
+	blockLok.z = b.z;
+	hasStarted = false;
+	poggers = true;
+	bool doneDown = false;
+	bool doneUp = false;
+
+
+		for (int x = 0; x < 100; x++) {
+			for (int y = 100; y > -100; y--) {
+				for (int z = 0; z < 100; z++) {
+					joeMama.x = blockLok.x + x;
+					joeMama.y = blockLok.y + y;
+					joeMama.z = blockLok.z + z;
+					//add in future 0 to 100 or filter by nearest so most efficient!
+					if ((localPlayer->region->getBlock(joeMama)->blockLegacy)->blockId == 56) {
+						clientMessageF("X: %.2f Y: %.2f Z: %.2f", joeMama.x, joeMama.y, joeMama.z);
+						target = joeMama;
+						//gotDiamonds = false;
+						return;
+					}
+				}
+			}
+		}
+	
+}
+
+void Baritone::onTick(C_GameMode* gm) {
+	if (tickCounter >= 10) {
+		PointingStruct* blockPos = g_Data.getClientInstance()->getPointerStruct();
+		vec3_t xyzBlock;
+		vec3_t ypBlock;
+		vec3_t ymBlock;
+		vec3_t xpBlock;
+		vec3_t xmBlock;
+		vec3_t zpBlock;
+		vec3_t zmBlock;
+		vec3_ti A = blockPos->block;
+		vec3_ti ddd;
+		vec3_ti epicPog;
+		vec3_ti epicPog2;
+		vec3_t currPos = gm->player->currentPos;
+		vec3_t currPosInt;
+		vec3_ti currPosFeet;
+		currPosFeet.x = currPos.x;
+		currPosFeet.y = currPos.y - 2;
+		currPosFeet.z = currPos.z;
+
+
+		currPosInt.x = currPos.x;
+		currPosInt.y = currPos.y;
+		currPosInt.z = currPos.z;
+		
+		xyzBlock.x = A.x;
+		xyzBlock.y = A.y;
+		xyzBlock.z = A.z;
+		
+		epicPog2 = A;
+		epicPog2.y += 1;
+		epicPog = A;
+		epicPog.y -= 2;
+		ddd = A;
+		ddd.y -= 1;
+		ypBlock.y = xyzBlock.y + 1;
+		ypBlock.x = xyzBlock.x;
+		ypBlock.z = xyzBlock.z;
+
+		ymBlock.y = xyzBlock.y - 1;
+		ymBlock.x = xyzBlock.x;
+		ymBlock.z = xyzBlock.z;
+
+		xpBlock.x = xyzBlock.x + 1;
+		xpBlock.y = xyzBlock.y;
+		xpBlock.z = xyzBlock.z;
+
+		xmBlock.x = xyzBlock.x - 1;
+		xmBlock.y = xyzBlock.y;
+		xmBlock.z = xyzBlock.z;
+
+		zpBlock.z = xyzBlock.z + 1;
+		zpBlock.y = xyzBlock.y;
+		zpBlock.x = xyzBlock.x;
+
+		zmBlock.z = xyzBlock.z - 1;
+		zmBlock.y = xyzBlock.y;
+		zmBlock.x = xyzBlock.x;
+		C_LocalPlayer* localPlayer = g_Data.getLocalPlayer();
+		vec2_t appl;
+		appl.x = 90;
+		appl.y = 0;
+		vec2_t xp45 = vec2_t(30, 0);
+		vec2_t xn45 = vec2_t(-30, 0);
+		vec2_t yl180 = vec2_t(0, 180);
+		vec2_t yp90 = vec2_t(0, 90);
+
+		float calcYaw = (gm->player->yaw + 90) * (PI / 180);
+		float calcPitch = (gm->player->pitch) * -(PI / 180);
+
+		//(gm->player->region->getBlock(xyzBlock)->blockLegacy)->blockId
+		if (!hasStarted) {
+			if ((gm->player->region->getBlock(xyzBlock)->blockLegacy)->blockId == 3 || (gm->player->region->getBlock(xyzBlock)->blockLegacy)->blockId == 2) {
+				gm->destroyBlock(&blockPos->block, 0);
+
+			} else if ((gm->player->region->getBlock(xyzBlock)->blockLegacy)->blockId == 1) {
+				gm->destroyBlock(&blockPos->block, 0);
+				gm->destroyBlock(&blockPos->block, 0);
+				gm->destroyBlock(&ddd, 0);
+
+				localPlayer->applyTurnDelta(&appl);
+				hasStarted = true;
+			}
+		} else if (hasStarted) {
+			if ((gm->player->region->getBlock(ypBlock)->blockLegacy)->blockId != 8 && (gm->player->region->getBlock(ypBlock)->blockLegacy)->blockId != 9 && (gm->player->region->getBlock(ypBlock)->blockLegacy)->blockId != 10 && (gm->player->region->getBlock(ypBlock)->blockLegacy)->blockId != 11 && (gm->player->region->getBlock(ypBlock)->blockLegacy)->blockId != 12) {
+				if ((gm->player->region->getBlock(ymBlock)->blockLegacy)->blockId != 8 && (gm->player->region->getBlock(ymBlock)->blockLegacy)->blockId != 9 && (gm->player->region->getBlock(ymBlock)->blockLegacy)->blockId != 10 && (gm->player->region->getBlock(ymBlock)->blockLegacy)->blockId != 11 && (gm->player->region->getBlock(ymBlock)->blockLegacy)->blockId != 12) {
+					if ((gm->player->region->getBlock(xpBlock)->blockLegacy)->blockId != 8 && (gm->player->region->getBlock(xpBlock)->blockLegacy)->blockId != 9 && (gm->player->region->getBlock(xpBlock)->blockLegacy)->blockId != 10 && (gm->player->region->getBlock(xpBlock)->blockLegacy)->blockId != 11 && (gm->player->region->getBlock(xpBlock)->blockLegacy)->blockId != 12) {
+						if ((gm->player->region->getBlock(xmBlock)->blockLegacy)->blockId != 8 && (gm->player->region->getBlock(xmBlock)->blockLegacy)->blockId != 9 && (gm->player->region->getBlock(xmBlock)->blockLegacy)->blockId != 10 && (gm->player->region->getBlock(xmBlock)->blockLegacy)->blockId != 11 && (gm->player->region->getBlock(xmBlock)->blockLegacy)->blockId != 12) {
+							if ((gm->player->region->getBlock(zpBlock)->blockLegacy)->blockId != 8 && (gm->player->region->getBlock(zpBlock)->blockLegacy)->blockId != 9 && (gm->player->region->getBlock(zpBlock)->blockLegacy)->blockId != 10 && (gm->player->region->getBlock(zpBlock)->blockLegacy)->blockId != 11 && (gm->player->region->getBlock(zpBlock)->blockLegacy)->blockId != 12) {
+								if ((gm->player->region->getBlock(zmBlock)->blockLegacy)->blockId != 8 && (gm->player->region->getBlock(zmBlock)->blockLegacy)->blockId != 9 && (gm->player->region->getBlock(zmBlock)->blockLegacy)->blockId != 10 && (gm->player->region->getBlock(zmBlock)->blockLegacy)->blockId != 11 && (gm->player->region->getBlock(zmBlock)->blockLegacy)->blockId != 12) {
+									//if ((gm->player->region->getBlock(xyzBlock)->blockLegacy)->blockId == 1) {
+									//removed gravel from if statements above
+									C_LocalPlayer* localPlayer = g_Data.getLocalPlayer();
+									vec2_t angles = localPlayer->viewAngles;
+
+									vec2_t backToOriginal;
+									vec2_t pitchPog;
+									if (angles.x > 0) {
+										pitchPog.x -= angles.x;
+										pitchPog.x += 90;
+									} else {
+										pitchPog.x += angles.x;
+										pitchPog.x -= 90;
+										pitchPog.x += 90;
+									}
+									backToOriginal.y -= angles.y;
+									localPlayer->applyTurnDelta(&backToOriginal);
+									if (currPosInt.x > target.x + 1) {
+										localPlayer->applyTurnDelta(&vec2_t(0, 90));
+									} else if (currPosInt.x < target.x) {
+										localPlayer->applyTurnDelta(&vec2_t(0, -90));
+									}
+
+									else if (currPosInt.z > target.z + 1) {
+										localPlayer->applyTurnDelta(&vec2_t(0, 180));
+									} else if (currPosInt.z < target.z) {
+										localPlayer->applyTurnDelta(&vec2_t(0, 0));
+									} else {
+										if (fortnite) {
+											clientMessageF("You have arrived!");
+											vec3_t joeMama;
+											for (int x = 0; x < 100; x++) {
+												for (int y = 100; y > -100; y--) {
+													for (int z = 0; z < 100; z++) {
+														joeMama.x = xyzBlock.x + x;
+														joeMama.y = xyzBlock.y + y;
+														joeMama.z = xyzBlock.z + z;
+														//add in future 0 to 100 or filter by nearest so most efficient!
+														if ((localPlayer->region->getBlock(joeMama)->blockLegacy)->blockId == 56) {
+															clientMessageF("X: %.2f Y: %.2f Z: %.2f", joeMama.x, joeMama.y, joeMama.z);
+															target = joeMama;
+															//gotDiamonds = false;
+															return;
+														}
+													}
+												}
+											}
+										}
+										
+									}
+
+									if (currPosInt.y - 1 > target.y) {
+										//gm->destroyBlock(&currPosFeet, 0);
+										if (doneDown == false) {
+											localPlayer->applyTurnDelta(&xn45);
+											doneDown = true;
+											doneUp = false;
+										}
+
+										gm->destroyBlock(&epicPog, 0);
+									} else if (currPosInt.y < target.y) {
+										if (doneUp == false) {
+											//angles = -30 i believe test using client message, also added - 1 to above and increased lerp speed. then improve the once arrived at location. 
+											localPlayer->applyTurnDelta(&xp45);
+											doneUp = true;
+											doneDown = false;
+										}
+
+										gm->destroyBlock(&epicPog2, 0);
+									} else {
+										localPlayer->applyTurnDelta(&pitchPog);
+										fortnite = true;
+									}
+
+									if (poggers) {
+										vec3_t moveVec;
+										moveVec.x = cos(calcYaw) * cos(calcPitch) * 2;
+										moveVec.y = sin(calcPitch) * 2;
+										moveVec.z = sin(calcYaw) * cos(calcPitch) * 2;
+										gm->player->lerpMotion(moveVec);
+										localPlayer->applyTurnDelta(&xn45);
+										
+
+										poggers = false;
+
+										
+
+									} else {
+										
+										localPlayer->applyTurnDelta(&xp45);
+										
+										vec3_t moveVec1;
+										moveVec1.x = cos(calcYaw) * cos(calcPitch) * 2;
+										moveVec1.y = sin(calcPitch) * 2;
+										moveVec1.z = sin(calcYaw) * cos(calcPitch) * 2;
+										gm->player->lerpMotion(moveVec1);
+										
+										poggers = true;
+									}
+									
+									gm->destroyBlock(&blockPos->block, 0);
+
+								/*} else {
+										hitSmth = true;
+									}*/
+								} else {
+									hitSmth = true;
+								}
+							} else {
+								hitSmth = true;
+							}
+						} else {
+							hitSmth = true;
+						}
+					} else {
+						hitSmth = true;
+					}
+				} else {
+					hitSmth = true;
+				}
+			} else {
+				hitSmth = true;
+			}
+		} else {
+			hitSmth = true;
+		}
+
+		if (hitSmth == true) {
+			localPlayer->applyTurnDelta(&yl180);
+			vec3_t moveVec;
+			moveVec.x = cos(calcYaw) * cos(calcPitch) * 0.5;
+			moveVec.y = sin(calcPitch) * 1;
+			moveVec.z = sin(calcYaw) * cos(calcPitch) * 0.5;
+			gm->player->lerpMotion(moveVec);
+			localPlayer->applyTurnDelta(&yp90);
+			hitSmth = false;
+		}		
+		tickCounter = 0;
+	} else {
+		tickCounter++;
+	}
+	
+
+	
+	
+	//clientMessageF("Hi" + abcdef);
+
+}
+
+void Baritone::onDisable() {
+	clientMessageF("Disabled");
+	bool gotDiamonds = true;
+}
+    </body>
+</html>
